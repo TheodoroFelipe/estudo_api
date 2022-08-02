@@ -19,29 +19,35 @@ public class Cliente {
     private String nome;
     private String endereco;
     private String telefone;
+    private String email;
     @Column(name = "data_cadastro")
     private LocalDate dataCadastro;
 
-    public Cliente() {
+    public Cliente(Long id, LocalDate dataNascimento, String cpf, String nome, String endereco, String telefone, String email) {
         super();
     }
 
-    public Cliente(Long id, LocalDate nascimento, String cpf, String nome, String endereco, String telefone, LocalDate dataCadastro) {
+    public Cliente(Long id, LocalDate nascimento, String cpf, String nome, String endereco, String telefone, String email, LocalDate dataCadastro) {
         this.id = id;
         this.nascimento = nascimento;
         this.cpf = cpf;
         this.nome = nome;
         this.endereco = endereco;
         this.telefone = telefone;
+        this.email = email;
         this.dataCadastro = dataCadastro;
     }
 
-    public Cliente(LocalDate nascimento, String cpf, String nome, String endereco, String telefone) {
+    public Cliente(LocalDate nascimento, String cpf, String nome, String endereco, String telefone, String email) {
         this.nascimento = nascimento;
         this.cpf = cpf;
         this.nome = nome;
         this.endereco = endereco;
         this.telefone = telefone;
+    }
+
+    public Cliente() {
+
     }
 
     @Override
@@ -53,6 +59,7 @@ public class Cliente {
                 ", nome='" + nome + '\'' +
                 ", endereco='" + endereco + '\'' +
                 ", telefone='" + telefone + '\'' +
+                ", email'" + email + '\'' +
                 ", dataCadastro=" + dataCadastro +
                 '}';
     }
