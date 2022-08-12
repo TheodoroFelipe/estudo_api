@@ -3,6 +3,8 @@ package estudo.projetolojaapi.ApiRestClientes;
 import estudo.projetolojaapi.model.Cliente;
 import estudo.projetolojaapi.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +43,8 @@ public class ClienteController {
 
     @GetMapping("{id}")
     public ResponseEntity<ClienteFormRequest> getById(@PathVariable Long id){
-        return repository.findById(id).map(ClienteFormRequest::fromModel).map(clienteFR -> ResponseEntity.ok(clienteFR)).orElseGet(()-> ResponseEntity.notFound().build());
+        return repository
+                .findById(id).map(ClienteFormRequest::fromModel).map(clienteFR -> ResponseEntity.ok(clienteFR)).orElseGet(()-> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("{id}")
@@ -51,11 +54,13 @@ public class ClienteController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public List<ClienteFormRequest> getLista(){ //stream o java transforma essa lista em stream
-        return repository
-                .findAll()
-                .stream()
-                .map(ClienteFormRequest::fromModel)
-                .collect(Collectors.toList());
+    @GetMapping
+    public Page<ClienteFormRequest> getLista(
+            @RequestParam(value = "nome", required = false, defaultValue = "") String nome,
+            @RequestParam(value = "cpf", required = false, defaultValue = "") String cpf,
+            Pageable pageable
+    ){ //stream o java transforma essa lista em stream
+        return repository.buscarPorNomeCpf("%" + nome + "%",
+                                             "%" + cpf + "%", pageable).map(ClienteFormRequest::fromModel);
     }
 }

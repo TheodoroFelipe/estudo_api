@@ -53,6 +53,7 @@ public class Cliente {
 
     @PrePersist
     public void prePersist(){
+
         setDataCadastro(Date.from(Instant.now()));
     }
 
